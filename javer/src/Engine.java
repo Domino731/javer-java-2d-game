@@ -1,9 +1,15 @@
 package javer.src;
 
+// Engine class with game panel & window
 public class Engine {
     private GameWindow gameWindow;
+    private GamePanel gamePanel;
+
+    // on start, create the game panel and game window classes
     public Engine(){
-        gameWindow = new GameWindow(400, 400);
+        gamePanel = new GamePanel();
+        gameWindow = new GameWindow(400, 400, gamePanel);
+
         System.out.println("Engine started");
     }
 }
