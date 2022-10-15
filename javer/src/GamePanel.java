@@ -5,19 +5,24 @@ import javer.src.inputs.MouseInputs;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
-    private int xDelta = 100, yDelta = 100;
+    private float xDelta = 100, yDelta = 100;
+    private float xDir = 0.1f, yDir = 0.1f;
+    private Color color = new Color(255,50,90);
     // fps counter
     private int  frames = 0;
     private long lastCheck = 0;
+    private Random random;
 
     public GamePanel(){
         mouseInputs = new MouseInputs(this);
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
+        random = new Random();
         System.out.println("GamePanel created");
     }
 
@@ -43,11 +48,34 @@ public class GamePanel extends JPanel {
         }
     }
 
+    private void updateRectangle(){
+      xDelta += xDir;
+      if(xDelta > 400 || xDelta < 0){
+          xDir *= -1;
+          color = getRandomColor();
+      }
+
+      yDelta += yDir;
+      if(yDelta > 400 || yDelta < 0){
+          yDir *= -1;
+          color = getRandomColor();
+      }
+    }
+    private Color getRandomColor(){
+        int bound = 255;
+        int r = random.nextInt(bound);
+        int g = random.nextInt(bound);
+        int b = random.nextInt(bound);
+        return new Color(r,g,b);
+    }
+
     public void paintComponent(Graphics g){
+        updateRectangle();
         super.paintComponent(g);
-        g.drawRect( xDelta,  yDelta, 100, 100);
+        g.setColor(color);
+        g.drawRect( (int)xDelta,  (int)yDelta, 100, 100);
 
         checkFps();
-        repaint();
     }
+
 }
