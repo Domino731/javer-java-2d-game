@@ -9,6 +9,7 @@ public class Engine {
     public Engine(){
         gamePanel = new GamePanel();
         gameWindow = new GameWindow(400, 400, gamePanel);
+        gamePanel.requestFocus();
 
         System.out.println("Engine started");
     }
