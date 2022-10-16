@@ -17,14 +17,28 @@ public class GamePanel extends JPanel {
 
     private BufferedImage img, subImg;
 
+    // animations
+    private BufferedImage[] idleAnimations;
+    private int animationTick, animationIndex, animationSpeed = 30;
+
     public GamePanel(){
         setPanelSize();
         importImage();
+        loadAnimations();
         mouseInputs = new MouseInputs(this);
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
         System.out.println("GamePanel created");
+    }
+
+    private void loadAnimations() {
+        // 5 is first level in sprite
+        idleAnimations = new BufferedImage[5];
+
+        for (int i = 0; i < idleAnimations.length; i++ ){
+            idleAnimations[i] = img.getSubimage(i * 64, 0, 64, 40 );
+        }
     }
 
     private void importImage(){
@@ -59,8 +73,19 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        subImg = img.getSubimage(0, 0, 64, 40);
-        g.drawImage(subImg, (int) xDelta,(int) yDelta, 128, 80, null);
+        updateAnimationTick();
+        g.drawImage(idleAnimations[animationIndex], (int) xDelta,(int) yDelta, 128, 80, null);
+    }
+
+    private void updateAnimationTick() {
+        animationTick++;
+        if(animationTick >= animationSpeed){
+            animationTick = 0;
+            animationIndex++;
+            if(animationIndex >= idleAnimations.length){
+                animationIndex = 0;
+            }
+        }
     }
 
     private void setPanelSize(){
