@@ -21,7 +21,7 @@ public class GamePanel extends JPanel {
 
     // animations
     private BufferedImage[][] animations;
-    private int animationTick, animationIndex, animationSpeed = 15;
+    private int animationTick, animationIndex, animationSpeed = 25;
     private int playerAction = Constants.Player.IDLE;
     private int playerDirection = -1;
     private boolean isMoving = false;
@@ -72,11 +72,6 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        updateAnimationTick();
-        
-        setAnimations();
-        updatePosition();
-
         g.drawImage(animations[playerAction][animationIndex], (int) xDelta,(int) yDelta, 128, 80, null);
     }
 
@@ -122,6 +117,13 @@ public class GamePanel extends JPanel {
 
     public void changeIsMoving(boolean isMoving){
         this.isMoving = isMoving;
+    }
+
+    public void updateGame() {
+
+        updateAnimationTick();
+        setAnimations();
+        updatePosition();
     }
 
     private void setPanelSize(){
