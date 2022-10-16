@@ -3,8 +3,12 @@ package javer.src;
 import javer.src.inputs.KeyboardInputs;
 import javer.src.inputs.MouseInputs;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 public class GamePanel extends JPanel {
@@ -17,13 +21,27 @@ public class GamePanel extends JPanel {
     private long lastCheck = 0;
     private Random random;
 
+    private BufferedImage img, subImg;
+
     public GamePanel(){
+        setPanelSize();
+        importImage();
         mouseInputs = new MouseInputs(this);
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
         random = new Random();
         System.out.println("GamePanel created");
+    }
+
+    private void importImage(){
+        InputStream is = getClass().getResourceAsStream("/player_sprites.png");
+        try {
+           img = ImageIO.read(is);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void changeXDelta(int value) {
@@ -70,12 +88,14 @@ public class GamePanel extends JPanel {
     }
 
     public void paintComponent(Graphics g){
-        updateRectangle();
         super.paintComponent(g);
-        g.setColor(color);
-        g.drawRect( (int)xDelta,  (int)yDelta, 100, 100);
-
+        subImg = img.getSubimage(0, 0, 64, 40);
+        g.drawImage(subImg, (int) xDelta,(int) yDelta, 128, 80, null);
         checkFps();
     }
 
+    private void setPanelSize(){
+        Dimension size = new Dimension(1280, 800);
+        setPreferredSize( size);
+    }
 }
