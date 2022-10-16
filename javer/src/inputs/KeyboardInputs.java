@@ -1,6 +1,7 @@
 package javer.src.inputs;
 
 import javer.src.GamePanel;
+import javer.src.utils.Constants;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -20,24 +21,30 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_W:
+                gamePanel.setDirection(Constants.Directions.UP);
+                break;
+            case KeyEvent.VK_S:
+                gamePanel.setDirection(Constants.Directions.DOWN);
+                break;
+            case KeyEvent.VK_A:
+                gamePanel.setDirection(Constants.Directions.LEFT);
+                break;
+            case KeyEvent.VK_D:
+                gamePanel.setDirection(Constants.Directions.RIGHT);
+                break;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_W:
-                gamePanel.changeYDelta(-5);
-                break;
             case KeyEvent.VK_S:
-                gamePanel.changeYDelta(5);
-                break;
             case KeyEvent.VK_A:
-                gamePanel.changeXDelta(-5);
-                break;
             case KeyEvent.VK_D:
-                gamePanel.changeXDelta(5);
-                break;
+                gamePanel.changeIsMoving(false);
         }
     }
 }

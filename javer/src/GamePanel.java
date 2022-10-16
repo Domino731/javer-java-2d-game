@@ -23,6 +23,8 @@ public class GamePanel extends JPanel {
     private BufferedImage[][] animations;
     private int animationTick, animationIndex, animationSpeed = 15;
     private int playerAction = Constants.Player.IDLE;
+    private int playerDirection = -1;
+    private boolean isMoving = false;
 
     public GamePanel(){
         setPanelSize();
@@ -63,23 +65,48 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void changeXDelta(int value) {
-        xDelta += value;
-    }
-
-    public void changeYDelta(int value){
-        yDelta += value;
-    }
-
-    public void setDelta(int x, int y){
-        xDelta = x;
-        yDelta = y;
+    public void setDirection(int direction ){
+        isMoving = true;
+        this.playerDirection = direction;
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         updateAnimationTick();
+        
+        setAnimations();
+        updatePosition();
+
         g.drawImage(animations[playerAction][animationIndex], (int) xDelta,(int) yDelta, 128, 80, null);
+    }
+
+    private void updatePosition() {
+        if(isMoving){
+            switch (playerDirection){
+                case Constants.Directions.LEFT:
+                    xDelta -= 5;
+                    break;
+                case Constants.Directions.UP:
+                    yDelta -= 5;
+                    break;
+                case Constants.Directions.RIGHT:
+                    xDelta += 5;
+                    break;
+                case Constants.Directions.DOWN:
+                    yDelta +=5;
+                    break;
+            }
+        }
+
+    }
+
+    private void setAnimations() {
+        if(isMoving){
+            playerAction = Constants.Player.RUNNING;
+        }
+        else {
+            playerAction = Constants.Player.IDLE;
+        }
     }
 
     private void updateAnimationTick() {
@@ -91,6 +118,10 @@ public class GamePanel extends JPanel {
                 animationIndex = 0;
             }
         }
+    }
+
+    public void changeIsMoving(boolean isMoving){
+        this.isMoving = isMoving;
     }
 
     private void setPanelSize(){
