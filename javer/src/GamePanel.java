@@ -14,12 +14,6 @@ import java.util.Random;
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
     private float xDelta = 100, yDelta = 100;
-    private float xDir = 0.1f, yDir = 0.1f;
-    private Color color = new Color(255,50,90);
-    // fps counter
-    private int  frames = 0;
-    private long lastCheck = 0;
-    private Random random;
 
     private BufferedImage img, subImg;
 
@@ -30,7 +24,6 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
-        random = new Random();
         System.out.println("GamePanel created");
     }
 
@@ -41,6 +34,13 @@ public class GamePanel extends JPanel {
         }
         catch (IOException e){
             e.printStackTrace();
+        }
+        finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -57,41 +57,10 @@ public class GamePanel extends JPanel {
         yDelta = y;
     }
 
-    private void checkFps(){
-        frames++;
-        if(System.currentTimeMillis() - lastCheck >= 1000){
-            lastCheck = System.currentTimeMillis();
-            System.out.println("FPS: " + frames);
-            frames = 0;
-        }
-    }
-
-    private void updateRectangle(){
-      xDelta += xDir;
-      if(xDelta > 400 || xDelta < 0){
-          xDir *= -1;
-          color = getRandomColor();
-      }
-
-      yDelta += yDir;
-      if(yDelta > 400 || yDelta < 0){
-          yDir *= -1;
-          color = getRandomColor();
-      }
-    }
-    private Color getRandomColor(){
-        int bound = 255;
-        int r = random.nextInt(bound);
-        int g = random.nextInt(bound);
-        int b = random.nextInt(bound);
-        return new Color(r,g,b);
-    }
-
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         subImg = img.getSubimage(0, 0, 64, 40);
         g.drawImage(subImg, (int) xDelta,(int) yDelta, 128, 80, null);
-        checkFps();
     }
 
     private void setPanelSize(){
