@@ -2,6 +2,7 @@ package javer.src;
 
 import javer.src.inputs.KeyboardInputs;
 import javer.src.inputs.MouseInputs;
+import javer.src.utils.Constants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,7 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
+
+import static javer.src.utils.Constants.Player.GetPlayerSpriteAmount;
 
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
@@ -18,8 +20,9 @@ public class GamePanel extends JPanel {
     private BufferedImage img, subImg;
 
     // animations
-    private BufferedImage[] idleAnimations;
-    private int animationTick, animationIndex, animationSpeed = 30;
+    private BufferedImage[][] animations;
+    private int animationTick, animationIndex, animationSpeed = 15;
+    private int playerAction = Constants.Player.IDLE;
 
     public GamePanel(){
         setPanelSize();
@@ -34,11 +37,13 @@ public class GamePanel extends JPanel {
 
     private void loadAnimations() {
         // 5 is first level in sprite
-        idleAnimations = new BufferedImage[5];
-
-        for (int i = 0; i < idleAnimations.length; i++ ){
-            idleAnimations[i] = img.getSubimage(i * 64, 0, 64, 40 );
+        animations = new BufferedImage[7][8];
+        for (int j = 0; j < animations.length; j++ ){
+            for (int i = 0; i < animations[j].length; i++ ){
+                animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40 );
+            }
         }
+
     }
 
     private void importImage(){
@@ -74,7 +79,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         updateAnimationTick();
-        g.drawImage(idleAnimations[animationIndex], (int) xDelta,(int) yDelta, 128, 80, null);
+        g.drawImage(animations[playerAction][animationIndex], (int) xDelta,(int) yDelta, 128, 80, null);
     }
 
     private void updateAnimationTick() {
@@ -82,7 +87,7 @@ public class GamePanel extends JPanel {
         if(animationTick >= animationSpeed){
             animationTick = 0;
             animationIndex++;
-            if(animationIndex >= idleAnimations.length){
+            if(animationIndex >= GetPlayerSpriteAmount(playerAction)){
                 animationIndex = 0;
             }
         }
