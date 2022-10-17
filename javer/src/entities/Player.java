@@ -15,7 +15,7 @@ public class Player extends Entity{
     private BufferedImage[][] animations;
     private int animationTick, animationIndex, animationSpeed = 25;
     private int playerAction = Constants.Player.IDLE;
-    private boolean isMoving = false;
+    private boolean isMoving = false, isAttacking = false;
     private boolean left, top, right, down;
     private float speed = 2.0f;
 
@@ -70,18 +70,34 @@ public class Player extends Entity{
             animationIndex++;
             if(animationIndex >= GetPlayerSpriteAmount(playerAction)){
                 animationIndex = 0;
+                isAttacking = false;
             }
         }
     }
 
 
     private void setAnimations() {
+        int startAnimation = playerAction;
+        
         if(isMoving){
             playerAction = Constants.Player.RUNNING;
         }
         else {
             playerAction = Constants.Player.IDLE;
         }
+
+        if(isAttacking){
+            playerAction = Constants.Player.ATTACK;
+        }
+        
+        if(startAnimation != playerAction){
+            resetAnimationTick();
+        }
+    }
+
+    private void resetAnimationTick() {
+        animationTick = 0;
+        animationIndex = 0;
     }
 
     private void updatePosition() {
@@ -140,5 +156,9 @@ public class Player extends Entity{
         right = false;
         down = false;
         left = false;
+    }
+
+    public void setIsAttacking(boolean v){
+        isAttacking = v;
     }
 }
