@@ -15,8 +15,9 @@ public class Player extends Entity{
     private BufferedImage[][] animations;
     private int animationTick, animationIndex, animationSpeed = 25;
     private int playerAction = Constants.Player.IDLE;
-    private int playerDirection = -1;
     private boolean isMoving = false;
+    private boolean left, top, right, down;
+    private float speed = 2.0f;
 
     public Player(float x, float y) {
         super(x, y);
@@ -24,9 +25,9 @@ public class Player extends Entity{
     }
 
     public void update(){
+        updatePosition();
       updateAnimationTick();
       setAnimations();
-      updatePosition();
     }
 
     public void render(Graphics g){
@@ -58,11 +59,6 @@ public class Player extends Entity{
         }
     }
 
-    public void setDirection(int direction ){
-        isMoving = true;
-        this.playerDirection = direction;
-    }
-
     public void changeIsMoving(boolean isMoving){
         this.isMoving = isMoving;
     }
@@ -89,22 +85,53 @@ public class Player extends Entity{
     }
 
     private void updatePosition() {
-        if(isMoving){
-            switch (playerDirection){
-                case Constants.Directions.LEFT:
-                    x -= 5;
-                    break;
-                case Constants.Directions.UP:
-                    y -= 5;
-                    break;
-                case Constants.Directions.RIGHT:
-                    x += 5;
-                    break;
-                case Constants.Directions.DOWN:
-                    y +=5;
-                    break;
-            }
+
+        isMoving = false;
+
+        // horizontal moving
+       if(left && !right){
+           x -= speed;
+           isMoving = true;
+       } else if(right && !left){
+            x += speed;
+           isMoving = true;
         }
 
+       // vertical
+        if(top && !down){
+            y -= speed;
+            isMoving = true;
+        } else if(!top && down){
+            y += speed;
+            isMoving = true;
+        }
+    }
+
+    // getters
+    public boolean getLeft(){
+        return left;
+    }
+    public boolean getTop(){
+        return top;
+    }
+    public boolean getRight(){
+        return right;
+    }
+    public boolean getDown(){
+        return down;
+    }
+
+    // setters
+    public void setLeft(boolean v){
+        left = v;
+    }
+    public void setUp(boolean v){
+         top = v;
+    }
+    public void setRight(boolean v){
+        right = v;
+    }
+    public void setDown(boolean v){
+        down = v;
     }
 }
