@@ -1,5 +1,9 @@
 package javer.src;
 
+import javer.src.entities.Player;
+
+import java.awt.*;
+
 // Engine class with game panel & window
 public class Engine implements Runnable {
     private GameWindow gameWindow;
@@ -8,13 +12,21 @@ public class Engine implements Runnable {
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
+    // Entities
+    private Player player;
+
     // on start, create the game panel and game window classes
     public Engine(){
-        gamePanel = new GamePanel();
+        initClasses();
+        gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(400, 400, gamePanel);
         gamePanel.requestFocus();
         startGameLoop();
         System.out.println("Engine started");
+    }
+
+    private void initClasses(){
+        player = new Player(100, 100);
     }
 
     private void startGameLoop() {
@@ -23,7 +35,11 @@ public class Engine implements Runnable {
     }
 
     public void update() {
-        gamePanel.updateGame();
+       player.update();
+    }
+
+    public void render(Graphics g){
+        player.render(g);
     }
 
     @Override
@@ -68,6 +84,9 @@ public class Engine implements Runnable {
 
             }
         }
+    }
 
+    public Player getPlayer(){
+        return player;
     }
 }
