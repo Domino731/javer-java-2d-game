@@ -1,6 +1,8 @@
 package javer.src;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 // window which is responsible for game content
 public class GameWindow {
@@ -14,6 +16,16 @@ public class GameWindow {
           jFrame.setResizable(false);
           jFrame.pack();
           jFrame.setVisible(true);
+          jFrame.addWindowFocusListener(new WindowFocusListener() {
+              @Override
+              public void windowGainedFocus(WindowEvent e) {
+              }
+
+              @Override
+              public void windowLostFocus(WindowEvent e) {
+                  gamePanel.getEngine().windowFocusLost();
+              }
+          });
 
           System.out.println("Game window created " + width + " x " + height);
     }
