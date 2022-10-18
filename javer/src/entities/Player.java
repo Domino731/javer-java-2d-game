@@ -1,6 +1,7 @@
 package javer.src.entities;
 
 import javer.src.utils.Constants;
+import javer.src.utils.LoadSave;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -36,9 +37,8 @@ public class Player extends Entity{
 
     // load animations from sprite (player_sprites.png) and them to animations array
     private void loadAnimations() {
-        InputStream is = getClass().getResourceAsStream("/player_sprites.png");
-        try {
-            BufferedImage  img = ImageIO.read(is);
+            InputStream is = getClass().getResourceAsStream("/player_sprites.png");
+            BufferedImage  img = LoadSave.getSpriteAtlas(LoadSave.PLAYER_ATLAS_NAME);
             // 5 is first level in sprite
             animations = new BufferedImage[7][8];
             for (int j = 0; j < animations.length; j++ ){
@@ -46,17 +46,6 @@ public class Player extends Entity{
                     animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40 );
                 }
             }
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void changeIsMoving(boolean isMoving){
