@@ -1,6 +1,7 @@
 package javer.src;
 
 import javer.src.entities.Player;
+import javer.src.levels.LevelManager;
 
 import java.awt.*;
 
@@ -21,6 +22,7 @@ public class Engine implements Runnable {
     public static final int GAME_HEIGHT = TILE_SIZE * TILES_IN_HEIGHT;
     // Entities
     private Player player;
+    private LevelManager levelManager;
 
     // on start, create the game panel and game window classes
     public Engine(){
@@ -34,6 +36,7 @@ public class Engine implements Runnable {
 
     private void initClasses(){
         player = new Player(100, 100);
+        levelManager = new LevelManager(this);
     }
 
     private void startGameLoop() {
@@ -43,10 +46,12 @@ public class Engine implements Runnable {
 
     public void update() {
        player.update();
+       levelManager.update();
     }
 
     public void render(Graphics g){
         player.render(g);
+        levelManager.draw(g);
     }
 
     @Override

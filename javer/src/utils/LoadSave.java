@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 public class LoadSave {
     public static final String PLAYER_ATLAS_NAME = "player_sprites.png";
+    public static final String LEVEL_ATLAS_NAME = "outside_sprites.png";
 
     public static BufferedImage getSpriteAtlas(String fileName){
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
