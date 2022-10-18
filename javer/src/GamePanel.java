@@ -12,9 +12,9 @@ public class GamePanel extends JPanel {
     private Engine engine;
 
     public GamePanel(Engine engine){
+        this.engine = engine;
         setPanelSize();
         mouseInputs = new MouseInputs(this);
-        this.engine = engine;
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
@@ -27,7 +27,7 @@ public class GamePanel extends JPanel {
     }
 
     private void setPanelSize(){
-        Dimension size = new Dimension(1280, 800);
+        Dimension size = new Dimension(Engine.GAME_WIDTH, Engine.GAME_HEIGHT);
         setPreferredSize( size);
     }
 
