@@ -20,19 +20,21 @@ public class Player extends Entity{
     private boolean left, top, right, down;
     private float speed = 2.0f;
 
-    public Player(float x, float y) {
-        super(x, y);
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height);
         loadAnimations();
     }
 
     public void update(){
         updatePosition();
+        updateHitbox();
       updateAnimationTick();
       setAnimations();
     }
 
     public void render(Graphics g){
         g.drawImage(animations[playerAction][animationIndex], (int) x,(int) y, 128, 80, null);
+        drawHitbox(g);
     }
 
     // load animations from sprite (player_sprites.png) and them to animations array
