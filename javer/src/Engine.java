@@ -1,7 +1,9 @@
 package javer.src;
 
+import javer.src.engine.EngineGraphic;
 import javer.src.entities.Player;
 import javer.src.levels.LevelManager;
+import javer.src.player.PlayerClass;
 
 import java.awt.*;
 
@@ -24,6 +26,9 @@ public class Engine implements Runnable {
     private Player player;
     private LevelManager levelManager;
 
+    // NEW
+    private EngineGraphic playerClass;
+
     // on start, create the game panel and game window classes
     public Engine(){
         initClasses();
@@ -32,6 +37,7 @@ public class Engine implements Runnable {
         gamePanel.requestFocus();
         startGameLoop();
         System.out.println("Engine started");
+        playerClass = new PlayerClass(10, 10, 100, 100);
     }
 
     private void initClasses(){
@@ -52,6 +58,7 @@ public class Engine implements Runnable {
     public void render(Graphics g){
         levelManager.draw(g);
         player.render(g);
+        playerClass.render(g);
     }
 
     @Override
