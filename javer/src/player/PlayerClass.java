@@ -19,8 +19,15 @@ public class PlayerClass extends EngineGraphic {
         super(posX, posY, width, height);
     }
 
-    private void changeDirection(){
-
+    private void changeDirection(DIRECTION direction){
+        this.direction = direction;
     }
 
+    private void setIsMoving(boolean isMoving){
+        this.isMoving = isMoving;
+    }
+
+    private void isIsAttacking(boolean isAttacking){
+        this.isAttacking = isAttacking;
+    }
 }
