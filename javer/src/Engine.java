@@ -27,7 +27,7 @@ public class Engine implements Runnable {
     private LevelManager levelManager;
 
     // NEW
-    private EngineGraphic playerClass;
+    private PlayerClass playerClass;
 
     // on start, create the game panel and game window classes
     public Engine(){
@@ -107,6 +107,10 @@ public class Engine implements Runnable {
 
     public Player getPlayer(){
         return player;
+    }
+
+    public PlayerClass getPlayerClass() {
+        return playerClass;
     }
 
     public void windowFocusLost() {

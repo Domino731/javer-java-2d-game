@@ -30,4 +30,19 @@ public class PlayerClass extends EngineGraphic {
     private void isIsAttacking(boolean isAttacking){
         this.isAttacking = isAttacking;
     }
+
+    // set direction flags
+    // setters
+    public void setLeft(boolean v){
+        left = v;
+    }
+    public void setUp(boolean v){
+        top = v;
+    }
+    public void setRight(boolean v){
+        right = v;
+    }
+    public void setDown(boolean v){
+        down = v;
+    }
 }
